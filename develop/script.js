@@ -1,18 +1,60 @@
 // DayPlanner
 
-// Storage array of objects
-let storeObject = {
-  time: "",
-  task: "",
-};
-
-let objectArray = [];
+// Define storage array
+let storeArray = [
+    {
+    arrayRow: 0,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 1,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 2,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 3,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 4,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 5,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 6,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 7,
+    arrayTime: "",
+    arrayTask: "",
+},
+    {
+    arrayRow: 8,
+    arrayTime: "",
+    arrayTask: "",
+},
+];
 
 // Query selectors
 let todayEl = document.querySelector("#currentDay");
 let saveBtnEl = document.querySelectorAll(".saveBtn");
 let tableRowsEl = document.querySelectorAll("tr");
 let textsEl = document.querySelectorAll("textarea");
+let lastSavedEl = document.getElementById("updated");
 
 // Function calls
 main();
@@ -72,19 +114,22 @@ function setTableColors() {
     calTime = parseTime(tableRowsEl[i].children[0].textContent);
 
     if (calTime < currentTime) {
-      tableRowsEl[i].classList.add("past");
+      tableRowsEl[i].children[1].classList.add("past");
     } else if (calTime > currentTime) {
-      tableRowsEl[i].classList.add("future");
+      tableRowsEl[i].children[1].classList.add("future");
     } else {
-      tableRowsEl[i].classList.add("present");
+      tableRowsEl[i].children[1].classList.add("present");
     }
   }
 
   return;
 }
 
-function saveLocalStorage(x, y) {
-    console.log(x+" "+y);
+function saveLocalStorage(storeRow, storeTime, storeTask) {
+
+    storeArray[storeRow]=({arrayRow: storeRow, arrayTime: storeTime, arrayTask: storeTask});
+
+    localStorage.setItem("schedule", JSON.stringify(storeArray));
 }
 
 // Event listeners
@@ -92,6 +137,6 @@ for (let i = 0; i < saveBtnEl.length; i++) {
     const element = saveBtnEl[i];
 
     element.addEventListener("click", function () {
-        saveLocalStorage(tableRowsEl[i].children[0].textContent, textsEl[i].value);
+        saveLocalStorage(i, tableRowsEl[i].children[0].textContent, textsEl[i].value);
     })
 }
