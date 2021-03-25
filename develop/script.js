@@ -136,10 +136,9 @@ function setDataFromLocalStorage() {
 
   if (scheduleObject !== null) {
     storeArray = scheduleObject;
-    console.log(storeArray);
+
     for (let i = 0; i < scheduleObject.length; i++) {
       textsEl[i].value = scheduleObject[i].arrayTask;
-      //storeArray[i] = scheduleObject[i].arrayTask;
     }
   }
 }
