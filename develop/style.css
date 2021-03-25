@@ -60,4 +60,5 @@ textarea {
 .saveBtn:hover {
   font-size: 30px;
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
