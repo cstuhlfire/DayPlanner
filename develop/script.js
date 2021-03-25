@@ -54,7 +54,7 @@ let todayEl = document.querySelector("#currentDay");
 let saveBtnEl = document.querySelectorAll(".saveBtn");
 let tableRowsEl = document.querySelectorAll("tr");
 let textsEl = document.querySelectorAll("textarea");
-let lastSavedEl = document.getElementById("updated");
+let lastUpdateEl = document.getElementById("updated");
 
 // Function calls
 main();
@@ -113,6 +113,7 @@ function setTableColors() {
   for (let i = 0; i < tableRowsEl.length; i++) {
     calTime = parseTime(tableRowsEl[i].children[0].textContent);
 
+    // Add class to change color based on current time
     if (calTime < currentTime) {
       tableRowsEl[i].children[1].classList.add("past");
     } else if (calTime > currentTime) {
@@ -121,15 +122,20 @@ function setTableColors() {
       tableRowsEl[i].children[1].classList.add("present");
     }
   }
-
   return;
+}
+
+function setUpdateTime() {
+    let updateTime = moment().format("dddd, MMM Do h:mm a");
+    lastUpdateEl.textContent = "Last Update: " + updateTime;
 }
 
 function saveLocalStorage(storeRow, storeTime, storeTask) {
 
     storeArray[storeRow]=({arrayRow: storeRow, arrayTime: storeTime, arrayTask: storeTask});
-
+    // Set local storage as schedule from store Array
     localStorage.setItem("schedule", JSON.stringify(storeArray));
+    setUpdateTime();
 }
 
 // Event listeners
