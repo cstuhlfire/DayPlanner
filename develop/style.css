@@ -62,3 +62,7 @@ textarea {
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
+
+.saveBtn:active {
+  background-color: aquamarine;
+}
