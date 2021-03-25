@@ -2,51 +2,56 @@
 
 // Define storage array
 let storeArray = [
-    {
+  {
     arrayRow: 0,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 1,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 2,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 3,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 4,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 5,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 6,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 7,
     arrayTime: "",
     arrayTask: "",
-},
-    {
+  },
+  {
     arrayRow: 8,
     arrayTime: "",
     arrayTask: "",
-},
+  },
+  {
+    arrayRow: 9,
+    arrayTime: "",
+    arrayTask: "",
+  },
 ];
 
 // Query selectors
@@ -63,10 +68,11 @@ main();
 function main() {
   setDate();
   setTableColors();
+  setDataFromLocalStorage();
 }
 
 function setDate() {
-    // Use moment to set date.
+  // Use moment to set date.
   let today = moment().format("dddd, MMM Do");
 
   todayEl.textContent = today;
@@ -125,24 +131,45 @@ function setTableColors() {
   return;
 }
 
+function setDataFromLocalStorage() {
+  let scheduleObject = JSON.parse(localStorage.getItem("schedule"));
+
+  if (scheduleObject !== null) {
+    storeArray = scheduleObject;
+    console.log(storeArray);
+    for (let i = 0; i < scheduleObject.length; i++) {
+      textsEl[i].value = scheduleObject[i].arrayTask;
+      //storeArray[i] = scheduleObject[i].arrayTask;
+    }
+  }
+}
+
 function setUpdateTime() {
-    let updateTime = moment().format("dddd, MMM Do h:mm a");
-    lastUpdateEl.textContent = "Last Update: " + updateTime;
+  let updateTime = moment().format("dddd, MMM Do h:mm a");
+  lastUpdateEl.textContent = "Last Update: " + updateTime;
 }
 
 function saveLocalStorage(storeRow, storeTime, storeTask) {
+  storeArray[storeRow] = {
+    arrayRow: storeRow,
+    arrayTime: storeTime,
+    arrayTask: storeTask,
+  };
 
-    storeArray[storeRow]=({arrayRow: storeRow, arrayTime: storeTime, arrayTask: storeTask});
-    // Set local storage as schedule from store Array
-    localStorage.setItem("schedule", JSON.stringify(storeArray));
-    setUpdateTime();
+  // Set local storage as schedule from store Array
+  localStorage.setItem("schedule", JSON.stringify(storeArray));
+  setUpdateTime();
 }
 
 // Event listeners
 for (let i = 0; i < saveBtnEl.length; i++) {
-    const element = saveBtnEl[i];
+  const element = saveBtnEl[i];
 
-    element.addEventListener("click", function () {
-        saveLocalStorage(i, tableRowsEl[i].children[0].textContent, textsEl[i].value);
-    })
+  element.addEventListener("click", function () {
+    saveLocalStorage(
+      i,
+      tableRowsEl[i].children[0].textContent,
+      textsEl[i].value
+    );
+  });
 }
